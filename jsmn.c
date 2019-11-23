@@ -44,6 +44,7 @@ static int jsmn_parse_primitive(jsmn_parser *parser, const char *js,
 #ifndef JSMN_STRICT
 			/* In strict mode primitive must be followed by "," or "}" or "]" */
 			case ':':
+            case '=':
 #endif
 			case '\t' : case '\r' : case '\n' : case ' ' :
 			case ','  : case ']'  : case '}' :
@@ -238,7 +239,8 @@ int jsmn_parse(jsmn_parser *parser, const char *js, size_t len,
 			case '\t' : case '\r' : case '\n' : case ' ':
 				break;
 			case ':':
-				parser->toksuper = parser->toknext - 1;
+            case '=':
+                parser->toksuper = parser->toknext - 1;
 				break;
 			case ',':
 				if (tokens != NULL && parser->toksuper != -1 &&
